@@ -1,10 +1,9 @@
 import os
 import re
-import fnmatch
 from typing import List, Dict, Any, Tuple
-import utils  # Функции архитектора
-import navigation  # Функции инженера навигации
-import analysis  # Функции аналитика
+import utils
+import navigation
+import analysis
 
 
 def find_files_windows(pattern: str, path: str, case_sensitive: bool = False) -> List[str]:
