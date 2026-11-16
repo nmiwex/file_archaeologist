@@ -1,7 +1,6 @@
 import os
 import sys
 import platform
-from typing import NoReturn
 import utils
 import navigation
 import analysis
@@ -25,7 +24,7 @@ def display_windows_banner() -> None:
     current_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
     print("=" * 50)
-    print("         WINDOWS FILE MANAGER v1.0  ")
+    print("          WINDOWS FILE MANAGER       ")
     print("=" * 50)
     print(f"  Компьютер:            {computer_name}")
     print(f"  Операционная система: Windows {os_version}")
@@ -48,7 +47,7 @@ def display_main_menu(current_path: str) -> None:
     print("           ГЛАВНОЕ МЕНЮ")
     print("=" * 50)
     print("  1.  Навигация по файловой системе")
-    print("  2.  Анализ директории")
+    print("  2.  Анализ текущей директории")
     print("  3.  Поиск файлов")
     print("  4.  Статистика файловой системы")
     print("  5.  Сменить диск")
@@ -117,25 +116,61 @@ def handle_windows_navigation(command: str, current_path: str) -> str:
         print(f"Неизвестная команда навигации: {command}")
         return current_path
 
-def handle_windows_analysis(command: str, current_path: str) -> None:
-    """Обработка команд анализа Windows файловой системы"""
-    # TODO: Использовать analysis.show_windows_directory_stats()
-    # и другие функции анализа
-    pass
+def handle_windows_analysis(command: str, current_path: str) -> str:
+    """Processing of Windows File System analysis commands"""
+    if command == "2":
+        print(f"\n Анализ директории: {current_path}")
+        print("=" * 50)
 
-def handle_windows_search(command: str, current_path: str) -> None:
-    """Обработка команд поиска в Windows"""
-    # TODO: Использовать search.search_menu_handler()
-    pass
+        success = analysis.show_windows_directory_stats(current_path)
+
+        if not success:
+            print("Не удалось выполнить анализ директории")
+
+        return current_path
+
+    elif command == "4":
+        print("\n Статистика файловой системы")
+        print("=" * 50)
+
+        target_path = input(" Введите путь для анализа (или Enter для текущего): ").strip()
+
+        if not target_path:
+            target_path = current_path
+
+        if not os.path.exists(target_path):
+            print(f" Путь не существует: {target_path}")
+            return current_path
+
+        print(f"\n Анализ пути: {target_path}")
+        print("=" * 50)
+
+        success = analysis.show_windows_directory_stats(target_path)
+
+        if not success:
+            print(" Не удалось выполнить анализ")
+
+        return current_path
+
+    else:
+        print(f"  Неизвестная команда анализа: {command}")
+        return current_path
+
+def handle_windows_search(command: str, current_path: str) -> str:
+    """Processing search commands in Windows"""
+    print(f"\n Поиск файлов в: {current_path}")
+    print("=" * 50)
+
+    continue_search = True
+
+    while continue_search:
+        continue_search = search.search_menu_handler(current_path)
+
+    print("\n Возврат в главное меню")
+    return current_path
 
 def run_windows_command(command: str, current_path: str) -> str:
-    """Главный обработчик команд с использованием match case"""
-    # TODO: Использовать match case для маршрутизации команд
-    # Интегрировать ВСЕ модули:
-    # - navigation для команд 1, 5, 6
-    # - analysis для команд 2, 4
-    # - search для команды 3
-    # Вернуть обновленный текущий путь
+    """The main command handler using the match case"""
     match command:
         case "1" | "5" | "6":
             return handle_windows_navigation(command, current_path)
@@ -151,20 +186,16 @@ def run_windows_command(command: str, current_path: str) -> str:
             print("Пожалуйста, выберите команду из меню (0-6)")
             return current_path
 
-def main() -> NoReturn:
+def main() -> None:
     """The main function of the program for Windows"""
-    if not check_windows_environment():
-        sys.exit(1)
-
+    check_windows_environment()
     display_windows_banner()
-
     current_path = os.getcwd()
 
     while True:
         try:
             display_main_menu(current_path)
             command = input(" Введите номер команды: ").strip()
-
             if not command:
                 continue
 
