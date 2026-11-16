@@ -6,7 +6,8 @@ import ctypes
 
 PathString = Union[str, Path]
 FILE_ATTRIBUTE_HIDDEN = 0x02
-
+FILE_ATTRIBUTE_SYSTEM = 0x04
+FILE_ATTRIBUTE_READONLY = 0x01
 
 def is_windows_os() -> bool:
     """
