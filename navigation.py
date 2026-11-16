@@ -82,7 +82,6 @@ def move_down(current_path: str, target_dir: str) -> Tuple[bool, str]:
 
     items = utils.safe_windows_listdir(current_path)
 
-    # Ищем папку без учёта регистра
     matched_name = None
     for item in items:
         if item.lower() == target_dir.lower():
