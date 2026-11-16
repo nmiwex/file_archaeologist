@@ -80,8 +80,16 @@ def move_up(current_path: str) -> str:
 def move_down(current_path: str, target_dir: str) -> Tuple[bool, str]:
     """Переход в указанный подкаталог в Windows"""
 
-    if target_dir in utils.safe_windows_listdir(current_path):
-        new_path = os.path.join(current_path, target_dir)
+    items = utils.safe_windows_listdir(current_path)
+
+    matched_name = None
+    for item in items:
+        if item.lower() == target_dir.lower():
+            matched_name = item
+            break
+
+    if matched_name is not None:
+        new_path = os.path.join(current_path, matched_name)
         if utils.validate_windows_path(new_path)[0]:
             return True, new_path
         else:
