@@ -65,7 +65,7 @@ def find_by_windows_extension(extensions: List[str], path: str) -> List[str]:
             item_path = os.path.join(path, name)
 
             if item_type == 'directory':
-                found_files.extend(find_by_extension(extensions, item_path))
+                found_files.extend(find_by_windows_extension(extensions, item_path))
             elif item_type == 'file':
                 _, ext = os.path.splitext(name)
                 if ext.lower() in exts_lower:
@@ -93,7 +93,7 @@ def find_large_files_windows(min_size_mb: float, path: str) -> List[Dict[str, An
             item_path = os.path.join(path, name)
 
             if item_type == 'directory':
-                large_files.extend(find_large_files(min_size_mb, item_path))
+                large_files.extend(find_large_files_windows(min_size_mb, item_path))
             elif item_type == 'file':
                 success_bytes, size = analysis.count_bytes(item_path)
                 if not success_bytes:
@@ -181,14 +181,14 @@ def search_menu_handler(current_path: str) -> bool:
             if exts_input:
                 exts = [e.strip() for e in exts_input.split(',')]
                 print(f"Идет поиск по расширениям {exts}...")
-                results = find_by_extension(exts, current_path)
+                results = find_by_windows_extension(exts, current_path)
                 format_windows_search_results(results, "Поиск по расширениям")
 
         case '3':
             try:
                 min_size = float(input("Введите минимальный размер в МБ: ").strip())
                 print(f"Идет поиск файлов больше {min_size} МБ...")
-                results = find_large_files(min_size, current_path)
+                results = find_large_files_windows(min_size, current_path)
                 format_windows_search_results(results, "Поиск больших файлов")
             except ValueError:
                 print("Ошибка: введите корректное число.")
