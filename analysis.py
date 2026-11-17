@@ -5,6 +5,7 @@ import utils
 import navigation
 
 def count_files(path: str) -> Tuple[bool, int]:
+    """Recursively count files in a Windows directory."""
     count = 0
 
     if not os.path.exists(path):
@@ -48,6 +49,7 @@ def count_files(path: str) -> Tuple[bool, int]:
 
 
 def count_bytes(path: str) -> Tuple[bool, int]:
+    """Recursively calculate the total size of files on Windows."""
     count = 0
 
     if not os.path.exists(path):
@@ -100,6 +102,7 @@ def count_bytes(path: str) -> Tuple[bool, int]:
 
 
 def analyze_windows_file_types(path: str) -> Tuple[bool, Dict[str, Dict[str, Any]]]:
+     """Analyze file types, taking Windows extensions into account."""
     info = {}
 
     if not os.path.exists(path):
@@ -181,6 +184,7 @@ def analyze_windows_file_types(path: str) -> Tuple[bool, Dict[str, Dict[str, Any
 
 
 def get_windows_file_attributes_stats(path: str) -> Dict[str, int]:
+    """Statistics on Windows file attributes."""
     stats = {'hidden': 0, 'system': 0, 'readonly': 0}
 
     if not os.path.exists(path):
@@ -252,6 +256,7 @@ def get_windows_file_attributes_stats(path: str) -> Dict[str, int]:
 
 
 def show_windows_directory_stats(path: str) -> bool:
+    """Comprehensive output of Windows directory statistics."""
     if not os.path.exists(path):
         print('Указанный путь не существует')
         return False
